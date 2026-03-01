@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="USER")
@@ -19,10 +21,13 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@NotBlank(message="Name field is required!!")
+	@Size(min=2,max=20,message="min 2 and max 20 characters are allowed!!")
 	private String name;
 	@Column(unique=true)
 	private String email;
-	private String passwrod;
+	private String password;
 	private String role;
 	private String imageUrl;
 	private boolean enabled;
@@ -61,12 +66,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPasswrod() {
-		return passwrod;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswrod(String passwrod) {
-		this.passwrod = passwrod;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getRole() {
@@ -108,6 +113,14 @@ public class User {
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", imageUrl=" + imageUrl + ", enabled=" + enabled + ", about=" + about + ", contacts=" + contacts
+				+ "]";
+	}
+	
 	
 	
 	
