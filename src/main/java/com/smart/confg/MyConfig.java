@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,41 +13,60 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
+
 public class MyConfig {
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+	    return new UserDetailsServiceImpl();
+	}
 
-    // ✅ UserDetailsService bean
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
-    }
-
-    // ✅ Password encoder
+    // ✅ Password Encoder Bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Authentication provider (Boot 4 safe)
+    // ✅ Authentication Provider
     @Bean
     public DaoAuthenticationProvider authenticationProvider(
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder) {
 
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider provider =
+                new DaoAuthenticationProvider(userDetailsService);
+
         provider.setPasswordEncoder(passwordEncoder);
+
         return provider;
     }
 
-    // ✅ Security filter chain
+    // ✅ Security Filter Chain (Spring Boot 3/4 way)
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            DaoAuthenticationProvider authenticationProvider) throws Exception {
 
         http
+            .authenticationProvider(authenticationProvider)
+
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/**").hasRole("USER")
+                .requestMatchers("/**","/signin","/do_signin").permitAll()
             )
-            .formLogin(Customizer.withDefaults());
+            
+            .formLogin(form -> form
+                    .loginPage("/signin")
+                    .loginProcessingUrl("/do_login")
+                    .defaultSuccessUrl("/user/index")
+                    .permitAll()
+            )
+
+            .logout(logout -> logout
+                .logoutSuccessUrl("/signin?signout")
+                .permitAll()
+            );
 
         return http.build();
     }

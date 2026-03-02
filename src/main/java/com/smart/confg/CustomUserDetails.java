@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.smart.entities.User;
 
-public class CustomUserDetails implements UserDetails{
+public class CustomUserDetails implements UserDetails {
 	private User user;
 
 	public CustomUserDetails(User user) {
@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(user.getRole());
+		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
 		return List.of(simpleGrantedAuthority);
 	}
 
@@ -33,8 +33,7 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return user.getEmail();
+		return user.getName();
 	}
-	
 
 }

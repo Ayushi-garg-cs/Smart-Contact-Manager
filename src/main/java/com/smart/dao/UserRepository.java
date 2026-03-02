@@ -7,9 +7,5 @@ import org.springframework.data.repository.query.Param;
 import com.smart.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-	@Query("select u from User u where u.email=:email")
-	public static User getUserByUserName(@Param("email")String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    User getUserByEmail(String email);
 }

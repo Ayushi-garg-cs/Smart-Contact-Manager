@@ -1,6 +1,7 @@
 package com.smart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import jakarta.validation.Valid;
 public class HomeController {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 //	@GetMapping("/test")
 //	@ResponseBody
 //	public String test() {
@@ -34,7 +37,7 @@ public class HomeController {
 //		userRepository.save(user);
 //		return "Working";
 //	}
-	@RequestMapping("/")
+	@RequestMapping("/home")
 	public String home(Model m) {
 		m.addAttribute("title","Home-Smart Contact Manager");
 		return "home";
@@ -45,11 +48,11 @@ public class HomeController {
 		m.addAttribute("title","About-Smart Contact Manager");
 		return "about";
 	}
-	@RequestMapping("/signin")
+	@RequestMapping("/signUp")
 	public String signin(Model m) {
 		m.addAttribute("user",new User());
 		m.addAttribute("title","Register-Smart Contact Manager");
-		return "signin";
+		return "signUp";
 	}
 	//for registering user
 	@PostMapping("/do-register")
@@ -59,7 +62,7 @@ public class HomeController {
 			if(result1.hasErrors()) {
 				System.out.println("ERROR"+ result1.toString());
 				model.addAttribute("user",user);
-				return "signin";
+				return "signUp";
 			}
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
@@ -70,21 +73,30 @@ public class HomeController {
 				throw new Exception("You have not agreed terms and conditions");
 			}
 			System.out.println("USER"+user);
-			
-			User result=this.userRepository.save(user);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userRepository.save(user);
 			model.addAttribute("user",new User());
 			session.setAttribute("message",new Message("Successfully registered!!","alert-success"));
 			model.addAttribute("message", session.getAttribute("message"));
 			session.removeAttribute("message");
-			return "signin";
+			return "signUp";
 		}catch(Exception e) {
 			e.printStackTrace();
 			model.addAttribute("user",user);
 			session.setAttribute("message",new Message("Something went wrong"+ e.getMessage(),"alert-danger"));
 			model.addAttribute("message", session.getAttribute("message"));
 			session.removeAttribute("message");
-			return "signin";
+			return "signUp";
 		}
+	}
+	@GetMapping("/signin")
+	public String customLogin(Model model) {
+		model.addAttribute("title","Login Page");
+		return "login";
+	}
+	@GetMapping("/user/index")
+	public String dashboard(Model model) {
+	    return "normal/user_dashboard";
 	}
 	
 }
