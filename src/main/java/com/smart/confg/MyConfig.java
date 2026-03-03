@@ -53,7 +53,7 @@ public class MyConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
-                .requestMatchers("/**","/signin","/do_signin").permitAll()
+                .requestMatchers("/**").permitAll()
             )
             
             .formLogin(form -> form
@@ -64,6 +64,7 @@ public class MyConfig {
             )
 
             .logout(logout -> logout
+            	.logoutUrl("/logout")
                 .logoutSuccessUrl("/signin?signout")
                 .permitAll()
             );
