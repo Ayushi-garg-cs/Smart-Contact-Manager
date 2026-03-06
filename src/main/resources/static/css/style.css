@@ -45,9 +45,10 @@ body{
 		height:100vh;
 		postion:fixed;
 		padding-top:20px;
+		z-index:99999999999999999;
 	}
 	.content{
-		margin-left:0%!important;
+		margin-left:0%!important;		
 	}
 
 }
