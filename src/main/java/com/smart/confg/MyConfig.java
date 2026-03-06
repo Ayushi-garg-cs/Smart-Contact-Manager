@@ -65,9 +65,10 @@ public class MyConfig {
 
             .logout(logout -> logout
             	.logoutUrl("/logout")
-                .logoutSuccessUrl("/signin?signout")
+                .logoutSuccessUrl("/signin?logout")
                 .permitAll()
-            );
+            )
+        	.csrf(csrf -> csrf.disable());
 
         return http.build();
     }

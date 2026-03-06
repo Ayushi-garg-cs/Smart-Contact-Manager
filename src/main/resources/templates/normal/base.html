@@ -7,7 +7,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.rtl.min.css" integrity="sha384-CfCrinSRH2IR6a4e6fy2q6ioOX7O6Mtm1L9vRvFZ1trBncWmMePhzvafv7oIcWiW" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	
     <title th:text="${title}">Base html</title>
   </head>
   <body>
@@ -24,17 +26,12 @@
 	          <a class="nav-link active" aria-current="page" th:href="@{/home}" href="#">Home</a>
 	        </li>
 	        
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">About</a>
+	  		<li class="nav-item">
+	          <a class="nav-link" href="#" ><span th:text="${user != null ? user.name : ''}"></span></a>
 	        </li>
 	        
 	        <li class="nav-item">
-	          <a class="nav-link" href="#" th:href="@{/signin}" >Login</a>
-	        </li>
-	        
-	        <li class="nav-item">
-	          <a class="nav-link" href="#" th:href="@{/signUp}" >Signup</a>
-	        </li>
+	          <a class="nav-link" href="#" th:href="@{/logout}" >Logout</a>
 	        </li>
 	        
 	      </ul>
@@ -44,9 +41,28 @@
 	</nav>
 	<!-- end of navbar -->
 	
+	<!-- sidebar -->
+	<div class="sidebar">
+		<span onclick="toggleSidebar()" class="crossBtn">&times;</span>
+		<a href="#" class="item" ><i class="fa-solid fa-house"></i>Home</a>
+		<a href="#" class="item"><i class="fa-solid fa-address-book"></i>View Contacts</a>
+		<a href="#" class="item"> <i class="fa-solid fa-pencil"></i></i>Add Contacts</a>
+		<a href="#" class="item"><i class="fa-solid fa-user"></i>Your profile</a>
+		<a href="#" class="item">Settings</a>
+		<a href="#" class="item">Logout</a>
+		<div class="divider"></div>
+	</div>
+	<!-- End sidebar -->
 	
-    <div th:replace="${content}"></div>
-	<<script th:src="@{/js/script.js}"></script>
+	<!-- content area -->
+	<div class="content">
+	 <i onclick="toggleSidebar()" class="fa-solid fa-bars"></i>
+		    <div th:replace="${content}"></div>
+	</div>
+	<!-- END content -->
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{/js/script.js}"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
