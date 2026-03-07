@@ -55,9 +55,23 @@
 	<!-- End sidebar -->
 	
 	<!-- content area -->
+	<!-- content area -->
 	<div class="content mt-5">
-	 <i onclick="toggleSidebar()" class="fa-solid fa-bars"></i>
-		    <div th:replace="${content}"></div>
+	
+	    <i onclick="toggleSidebar()" class="fa-solid fa-bars"></i>
+	
+	    <div th:if="${message}" class="container mt-2">
+
+		    <div class="alert text-center"
+		         th:classappend="${'alert-' + message.type}">
+		
+		        <span th:text="${message.content}"></span>
+		
+		    </div>
+
+		</div>
+	    <div th:replace="~{${content}}"></div>
+	
 	</div>
 	<!-- END content -->
 	
