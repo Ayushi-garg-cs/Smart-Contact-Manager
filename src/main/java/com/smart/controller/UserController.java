@@ -92,7 +92,7 @@ public class UserController {
 		        new Message("Something went worng!!Try Again","danger")
 		     );
     	}
-    	return "redirect:/normal/add_contact_form";
+    	return "redirect:/user/add-contact";
     }
 }
 
