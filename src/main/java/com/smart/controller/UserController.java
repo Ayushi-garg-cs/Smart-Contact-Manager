@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,8 +112,12 @@ public class UserController {
     	m.addAttribute("title","Show User Contacts");
     	String userName=principal.getName();
     	User user=this.userRepository.findByEmail(userName);
-    	List<Contact> contacts=this.contactRepository.findContactsByUser(user.getId());
+    	
+    	Pageable pageable=PageRequest.of(page, 5);
+    	Page<Contact> contacts=this.contactRepository.findContactsByUser(user.getId(), pageable);
     	m.addAttribute("contacts",contacts);
+    	m.addAttribute("currentPage",page);
+    	m.addAttribute("totalPages",contacts.getTotalPages());
     	return "normal/show_contacts";
     }
 }
