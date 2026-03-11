@@ -27,7 +27,7 @@
 									<i class="fa fa-plus"></i>
 								</div>
 							</div>
-							<input type="text" id="name" name="name" placeholder="Enter first name here" class="form-control"/>		
+							<input required type="text" id="name" name="name" placeholder="Enter first name here" class="form-control"/>		
 						</div>
 						<!-- second name -->
 						<div class="input-group mt-3">
@@ -36,7 +36,7 @@
 									<i class="fa fa-user-alt"></i>
 								</div>
 							</div>
-							<input type="text" id="secondname" name="secondname" placeholder="Enter second name here" class="form-control"/>		
+							<input required type="text" id="secondname" name="secondname" placeholder="Enter second name here" class="form-control"/>		
 						</div>
 						<!-- phone number -->
 						<div class="input-group mt-3">
@@ -45,7 +45,7 @@
 									<i class="fa fa-phone"></i>
 								</div>
 							</div>
-							<input type="number" id="phone" name="phone" placeholder="Enter phone number" class="form-control"/>		
+							<input required type="number" id="phone" name="phone" placeholder="Enter phone number" class="form-control"/>		
 						</div>
 						<!--email -->
 						<div class="input-group mt-3">
@@ -54,7 +54,7 @@
 									@
 								</div>
 							</div>
-							<input type="email" id="email" name="email" placeholder="Enter email" class="form-control"/>		
+							<input required type="email" id="email" name="email" placeholder="Enter email" class="form-control"/>		
 						</div>
 						<!-- work -->
 						<div class="input-group mt-3">
@@ -63,7 +63,7 @@
 									<i class="fa fa-briefcase"></i>
 								</div>
 							</div>
-							<input type="text" id="work" name="work" placeholder="Enter work status" class="form-control"/>		
+							<input required type="text" id="work" name="work" placeholder="Enter work status" class="form-control"/>		
 						</div>
 						<!-- contact description-->
 						<div class="form-group mt-3">
@@ -86,7 +86,29 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="https://cdn.tiny.cloud/1/uqy6fv12fcciqzues1qyek5o0vec94iull9dl2uphpffouar/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+	<script>
+		  tinymce.init({
+		    selector: 'textarea',
+		    plugins: [
+		      // Core editing features
+		      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+		      // Your account includes a free trial of TinyMCE premium features
+		      // Try the most popular premium features until Mar 25, 2026:
+		      'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+		    ],
+		    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+		    tinycomments_mode: 'embedded',
+		    tinycomments_author: 'Author name',
+		    mergetags_list: [
+		      { value: 'First.Name', title: 'First Name' },
+		      { value: 'Email', title: 'Email' },
+		    ],
+		    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+		    uploadcare_public_key: '02ff7121a52161e7f0ce',
+		  });
+	</script>
+	
 </section>
 
 </body>
