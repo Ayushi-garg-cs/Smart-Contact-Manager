@@ -125,12 +125,36 @@ public class UserController {
     
     //showing particular contact details
     @RequestMapping("/{cId}/contact")
-    public String showContactDetail(@PathVariable("cId") Integer cId, Model m) {
+    public String showContactDetail(@PathVariable("cId") Integer cId, Model m,Principal principal) {
     	Optional<Contact> contactOptional=this.contactRepository.findById(cId);
     	Contact contact=contactOptional.get();
-    	m.addAttribute("contact",contact);
+    	
+    	String userName=principal.getName();
+    	User user=this.userRepository.findByEmail(userName);
+    	
+    	if(user.getId()==contact.getUser().getId()) {
+    		m.addAttribute("contact",contact);
+    		m.addAttribute("title", contact.getName());
+    	}
+    	
     	return "normal/contact_detail";
     }
+    
+    //delete contact handler
+    @GetMapping("/delete/{cid}")
+    public String deleteContact(@PathVariable("cid") Integer cId, Model m, RedirectAttributes redirectAttributes, Principal principal) {
+    	Contact contact=this.contactRepository.findById(cId).get();
+    	//contact.setUser(null);
+    	String userName=principal.getName();
+    	User user=this.userRepository.findByEmail(userName);
+    	if(user.getId()==contact.getUser().getId()) {
+    		this.contactRepository.delete(contact);
+    	}
+    	
+    	redirectAttributes.addFlashAttribute("message",new Message("Contact is deleted successfully...","success"));
+    	return "redirect:/user/show-contacts/0";
+    }
+    
 }
 
    
