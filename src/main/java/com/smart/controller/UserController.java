@@ -167,10 +167,36 @@ public class UserController {
     //processing update form
     @PostMapping("/process-update")
     public String updateContact(@ModelAttribute Contact contact, @RequestParam("profileImage") MultipartFile file, Principal principal,RedirectAttributes redirectAttributes) throws IOException {
-    	User user=this.userRepository.findByEmail(principal.getName());
-    	contact.setUser(user);//bidirectional mapping
-    	this.contactRepository.save(contact);
-    	return "normal/update_contact";
+    	try {
+    		//old contact detail
+    		Contact oldContactDetail=this.contactRepository.findById(contact.getcId()).get();
+    		//for image
+	    	if(!file.isEmpty()) {
+	    		
+	    		//delete old photo
+	    		File deleteFile=new ClassPathResource("static/image").getFile();
+	    		File file1=new File(deleteFile, oldContactDetail.getImage());
+	    		file1.delete();
+	    		
+	    		//update new photo
+	    		File saveFile=new ClassPathResource("static/image").getFile();
+	    		Path path=Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+	    		Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+	    		
+	    		contact.setImage(file.getOriginalFilename());
+	    	}else {
+	    		contact.setImage(oldContactDetail.getImage());
+	    	}
+	    	
+	    	
+	    	User user=this.userRepository.findByEmail(principal.getName());
+	    	contact.setUser(user);//bidirectional mapping
+	    	this.contactRepository.save(contact);
+	    	redirectAttributes.addFlashAttribute("message",new Message("Contact is updated successfully...","success"));
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return "redirect:/user/"+contact.getcId()+"/contact";
     }
 }
 
