@@ -155,6 +155,23 @@ public class UserController {
     	return "redirect:/user/show-contacts/0";
     }
     
+    //open update form handler
+    @PostMapping("/update-contact/{cid}")
+    public String updateForm(@PathVariable("cid") Integer cId, Model m) {
+    	m.addAttribute("title","Update Contact");
+    	Contact contact=this.contactRepository.findById(cId).get();
+    	m.addAttribute("contact",contact);
+    	return "normal/update_contact";
+    }
+    
+    //processing update form
+    @PostMapping("/process-update")
+    public String updateContact(@ModelAttribute Contact contact, @RequestParam("profileImage") MultipartFile file, Principal principal,RedirectAttributes redirectAttributes) throws IOException {
+    	User user=this.userRepository.findByEmail(principal.getName());
+    	contact.setUser(user);//bidirectional mapping
+    	this.contactRepository.save(contact);
+    	return "normal/update_contact";
+    }
 }
 
    

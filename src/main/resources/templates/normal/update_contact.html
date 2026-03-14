@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="card mr-5 ml-2">
+			<div class="card-body">
+				<h1 class="text-center">Update Contact</h1>
+				<div class="container-fluid mt-2">
+					<div class="row">
+						<div class="col-md-10 offset-md-1">
+							<form action="#"
+								th:object="${contact}"
+								enctype="multipart/form-data"
+								method="POST"
+								th:action="@{/user/process-update}"
+								class="mt-2"
+							>
+							
+							<!-- first name -->
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fa fa-plus"></i>
+									</div>
+								</div>
+								<input th:value="${contact.name}" required type="text" id="name" name="name" placeholder="Enter first name here" class="form-control"/>		
+							</div>
+							<!-- second name -->
+							<div class="input-group mt-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fa fa-user-alt"></i>
+									</div>
+								</div>
+								<input th:value="${contact.secondName}" required type="text" id="secondName" name="secondName" placeholder="Enter second name here" class="form-control"/>		
+							</div>
+							<!-- phone number -->
+							<div class="input-group mt-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fa fa-phone"></i>
+									</div>
+								</div>
+								<input th:value="${contact.phone}" required type="number" id="phone" name="phone" placeholder="Enter phone number" class="form-control"/>		
+							</div>
+							<!--email -->
+							<div class="input-group mt-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										@
+									</div>
+								</div>
+								<input th:value="${contact.email}" required type="email" id="email" name="email" placeholder="Enter email" class="form-control"/>		
+							</div>
+							<!-- work -->
+							<div class="input-group mt-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fa fa-briefcase"></i>
+									</div>
+								</div>
+								<input th:value="${contact.work}" required type="text" id="work" name="work" placeholder="Enter work status" class="form-control"/>		
+							</div>
+							<!-- contact description-->
+							<div class="form-group mt-3">
+								<textarea th:text="${contact.description}" placeholder="Enter contact description" name="description" id="description" rows="10" class="form-control"></textarea>
+							</div>
+							<!-- Contact image -->
+							<div class="container text-center">
+								<img style="width:250px; height:250px;" class="img fluid my_profile_picture" src="" th:src="@{'/image/'+${contact.image}}"/>
+							</div>
+							<p>Choose new profile picture</p>
+							<div class="custom-file mt-3">
+								<input type="file" name="profileImage"/>
+							</div>
+							
+							<!-- add button -->
+							<div class="container text-center mt-2">
+								<button class="btn btn-outline-primary">Save Contact</button>
+							</div>
+							</form>
+							
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.tiny.cloud/1/uqy6fv12fcciqzues1qyek5o0vec94iull9dl2uphpffouar/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+		<script>
+			  tinymce.init({
+			    selector: 'textarea',
+			    plugins: [
+			      // Core editing features
+			      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+			      // Your account includes a free trial of TinyMCE premium features
+			      // Try the most popular premium features until Mar 25, 2026:
+			      'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+			    ],
+			    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+			    tinycomments_mode: 'embedded',
+			    tinycomments_author: 'Author name',
+			    mergetags_list: [
+			      { value: 'First.Name', title: 'First Name' },
+			      { value: 'Email', title: 'Email' },
+			    ],
+			    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+			    uploadcare_public_key: '02ff7121a52161e7f0ce',
+			  });
+		</script>
+	</section>
+
+</body>
+</html>
