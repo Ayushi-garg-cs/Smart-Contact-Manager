@@ -124,6 +124,7 @@ public class UserController {
     }
     
     //showing particular contact details
+    //
     @RequestMapping("/{cId}/contact")
     public String showContactDetail(@PathVariable("cId") Integer cId, Model m,Principal principal) {
     	Optional<Contact> contactOptional=this.contactRepository.findById(cId);
