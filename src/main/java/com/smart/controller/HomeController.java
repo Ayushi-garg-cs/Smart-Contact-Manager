@@ -66,6 +66,7 @@ public class HomeController {
 			}
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);
+			user.setImageUrl("default.jpeg");
 			
 			System.out.println("Agreement"+ agreement);
 			if(!agreement) {

@@ -7,7 +7,20 @@
 </head>
 <body>
 <section>
-	<h1>This is user dashboard page</h1>
+	<div class="container">
+		<div class="card">
+			<div class="card-body my-5 text-center">
+				<div class="container text-center">
+					<img src="" style="height:200px; width:200px;" class="my_profile_picture" th:src="@{'/image/default.jpeg'}" alt="default" />
+				</div>
+				<div class="container text-center mt-3 text-secondary fst-italic fw-light">
+					<h1>Start Adding your contacts on cloud...</h1>
+				</div>
+				<a th:href="@{/user/add-contact}"class="btn btn-primary btn-block text-uppercase mt-4">Add New Contact</a>
+			</div>
+		</div>
+	</div>
+	
 </section>
 </body>
 </html>

@@ -199,6 +199,13 @@ public class UserController {
     	}
     	return "redirect:/user/"+contact.getcId()+"/contact";
     }
+    
+    //your profile handler
+    @GetMapping("/profile")
+    public String yourProfile(Model m) {
+    	m.addAttribute("title","Profile Page");
+    	return "normal/profile";
+    }
 }
 
    
